@@ -12,33 +12,50 @@ std::string getRidOfDigits(std::string);
 std::string removeEOT(std::string);
 std::map<std::string,int> textToWordMapCount(std::string);
 void analyzeTextForTolerance(std::string,int);
-
+void analyzeMapForTolerance(std::map<std::string,int>,int);
 int main() {
     
     // std::ios_base::sync_with_stdio(false);
     // std::cin.tie(NULL);
-
+    std::map<std::string,int> counter;
     int tolerance;
     std::cin >> tolerance;
 
     std::string input, text=" ", copyOfText;
     while(std::cin>>input){
         if(input.find("EndOfText")!=std::string::npos){
-            text = text + " " + removeEOT(input);
-            text = getRidOfPunctuation(text);
+            // text = text + " " + removeEOT(input);
+            // text = getRidOfPunctuation(text);
             // text = removeEOT(text);
-            text = stringToLower(text);
-            text = getRidOfDigits(text);
-            copyOfText = text;
-            analyzeTextForTolerance(text,tolerance);
-            text = "";
+            analyzeMapForTolerance(counter,tolerance);
             std::cout << "\n\n";
             std::cin >> tolerance;
         }else{
-            text = text + " " + input;
+            text = stringToLower(text);
+            // text = getRidOfDigits(text);
+            copyOfText = text;
+            analyzeTextForTolerance(text,tolerance);
+            text = "";
+            
+            // text = text + " " + input;
         }
     }
     return 0;
+}
+void analyzeMapForTolerance(std::map<std::string,int> wordCount,int tolerance){
+    
+    
+    bool atLeastOne = false;
+    for (const auto& pair : wordCount) {
+        if(pair.second == tolerance){
+            // std::cout << "'" <<pair.first << "':" << pair.second << "\n";
+            std::cout << pair.first <<  "\n";
+            atLeastOne = true;
+        }
+    }
+    if(!atLeastOne){
+        std::cout << "There is no such word. ";
+    }
 }
 
 void analyzeTextForTolerance(std::string Text,int tolerance){
