@@ -28,11 +28,11 @@ int main() {
             text = getRidOfPunctuation(text);
             // text = removeEOT(text);
             text = stringToLower(text);
-            text = getRidOfDigits(text);
+            // text = getRidOfDigits(text);
             copyOfText = text;
             analyzeTextForTolerance(text,tolerance);
             text = "";
-            std::cout << "\n\n";
+            std::cout << "\n";
             std::cin >> tolerance;
         }else{
             text = text + " " + input;
@@ -46,6 +46,7 @@ void analyzeTextForTolerance(std::string Text,int tolerance){
     wordCount = textToWordMapCount(Text);
     bool atLeastOne = false;
     for (const auto& pair : wordCount) {
+        std::cout << "WORD: " << pair.first << "  Times:" << pair.second;
         if(pair.second == tolerance){
             // std::cout << "'" <<pair.first << "':" << pair.second << "\n";
             std::cout << pair.first <<  "\n";
@@ -64,8 +65,9 @@ std::map<std::string,int> textToWordMapCount(std::string Text){
     std::string word = "";
     
     while(wordStream >> word){
+        // std::cout << word << "\n";
         if(word.length()>45) continue;
-        if(word.length()==1 && (word!= "i" || word!="a")) continue;
+        // if(word.length()==1 && (word!= "i" || word!="a")) continue;
         if(counter[word]!=NAN){
             counter[word]+=1;
         }else{
@@ -77,7 +79,9 @@ std::map<std::string,int> textToWordMapCount(std::string Text){
 
 std::string stringToLower(std::string toChange){
     for(int i=0;i<toChange.size();i++){
-        toChange[i] = tolower(toChange[i]);
+        if(!isdigit(toChange[i])){
+            toChange[i] = tolower(toChange[i]);
+        }
     }
     return toChange;
 }
